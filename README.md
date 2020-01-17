@@ -42,9 +42,7 @@ const featureServerUrl = 'xx';
 
 ### About API we call
 
-We're calling below API:
-Request URL: https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/{siteId}
-Description: Provide the details of a single environment monitoring site with current health advice. It only provides last 48 hours of data.
+We're calling  https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/{siteId} that provide the details of a single environment monitoring site with current health advice. It only provides last 48 hours of data.
 
 all API called required us to provide API key, make sure you register one in https://portal.api.epa.vic.gov.au/.  
 
@@ -52,7 +50,7 @@ Then, in [/routes/routes.js](/routes/routes.js) assign that API key to the varia
 
 ```javascript
 const apiKey = 'xx';
-
+```
 
 ### Deploy to AWS Lambda
 
@@ -66,7 +64,7 @@ sls deploy
 sls offline start
 ```
 
-### Trigger AWS Lambda function
+### Manually trigger AWS Lambda function
 ```
 sls invoke -f app
 ```
