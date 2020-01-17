@@ -1,0 +1,24 @@
+{
+  "name": "aqi-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "gtfs-realtime-bindings": "0.0.5",
+    "nodemon": "^2.0.2",
+    "protobufjs": "^6.8.8",
+    "request": "^2.88.0",
+    "serverless-http": "^1.8.0"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.31.0"
+  }
+}

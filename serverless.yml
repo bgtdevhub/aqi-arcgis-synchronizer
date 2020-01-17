@@ -1,0 +1,24 @@
+
+
+service: aqi-arcgis-synchronizer # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  timeout: 60 # optional, in seconds, default is 6
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: 
+        - 's3:*'
+      Resource: 
+        - "*"
+
+functions:
+  app:
+    handler: index.handler
+    timeout: 60 # optional, in seconds, default is 6
+    events:
+      - schedule: 
+        rate: rate(15 minutes)
+plugins:
+  - serverless-offline
