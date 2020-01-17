@@ -7,6 +7,10 @@ Site: https://www.arcgis.com/home/item.html?id=b9de53fbffe34feda37e04217541bee3
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+### How it works?
+
+In every 15 minutes, this lambda function will call an API provided by EPA. This API provides the details of a single environment monitoring site with current health advice for the last 48 hours of data. However, only latest data will be applied to ArcGIS feature layer.
+
 ### Prerequisites
 
 The app can be deploy as standalone NodeJS web app or as a AWS lambda function. To deploy to AWS Lambda, use [Serverless](https://serverless.com/)
@@ -41,11 +45,9 @@ Update the feature server URL
 const featureServerUrl = 'xx';
 ```
 
-### How it works?
+### API Subscription in EPA Portal
 
-In every 15 minutes, this lambda function will call an API provided by EPA (https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/{siteId}). This API provides the details of a single environment monitoring site with current health advice for the last 48 hours of data. However, it just takes the latest data to be applied in ArcGIS feature layer.
-
-All API called required us to provide API key, we can get the API through in https://portal.api.epa.vic.gov.au/. 
+All API called to EPA required us to provide API key, therefore we need to firstly register and subscribe to the product via https://portal.api.epa.vic.gov.au/. 
 
 Then, in [/routes/routes.js](/routes/routes.js) assign that API key to the variable
 
