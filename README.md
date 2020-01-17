@@ -1,6 +1,7 @@
 # aqi-arcgis-synchronizer
 
 AWS Lambda that synchronize EPA AirWatch Air Quality Data to ArcGIS
+Site: https://www.arcgis.com/home/item.html?id=b9de53fbffe34feda37e04217541bee3
 
 ## Getting Started
 
@@ -40,11 +41,11 @@ Update the feature server URL
 const featureServerUrl = 'xx';
 ```
 
-### About API we call
+### How it works?
 
-We're calling  https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/{siteId} that provide the details of a single environment monitoring site with current health advice. It only provides last 48 hours of data.
+In every 15 minutes, this lambda function will call an API provided by EPA (https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/{siteId}). This API provides the details of a single environment monitoring site with current health advice for the last 48 hours of data. However, it just takes the latest data to be applied in ArcGIS feature layer.
 
-all API called required us to provide API key, make sure you register one in https://portal.api.epa.vic.gov.au/.  
+All API called required us to provide API key, we can get the API through in https://portal.api.epa.vic.gov.au/. 
 
 Then, in [/routes/routes.js](/routes/routes.js) assign that API key to the variable
 
