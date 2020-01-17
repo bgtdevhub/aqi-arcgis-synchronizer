@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### How it works?
 
-In every XX minutes, this lambda function will call an API provided by EPA. This API provides the details of a single environment monitoring site with current health advice for the last 48 hours of data. However, only latest hour of data will be applied to ArcGIS feature layer.
+In every xx minutes, this lambda function will call an API provided by EPA. This API provides the details of a single environment monitoring site with current health advice for the last 48 hours of data. However, only latest hour of data will be applied to ArcGIS feature layer.
 
 ### Prerequisites
 
