@@ -1,17 +1,20 @@
 const request = require('request');
 
+// esri-australia credential
 const client_id = '';
 const client_secret = '';
-const apiKey = '';
+const apiKey = "";
 const featureServerUrl = '';
-const featureServerUrlApplyEdit = `${featureServerUrl}/applyEdits`;
+
+// ArcGIS Url
 const oauth2Url = 'https://www.arcgis.com/sharing/rest/oauth2/token/';
+const featureServerUrlApplyEdit = `${featureServerUrl}/applyEdits`;
 
 const getFeatureData = (token) =>
   new Promise((resolve, reject) => {
     request(
       {
-        url: `${featureServerUrl}/query?token=${token}&where=1%3D1&f=json&outFields=OBJECTID, siteID`,
+        url: `${featureServerUrl}/query?token=${token}&where=1%3D1&f=json&outFields=OBJECTID, siteID, siteName`,
         headers: {},
         method: 'GET',
         encoding: null
@@ -25,9 +28,10 @@ const getFeatureData = (token) =>
     );
   });
 
+
 const getSourceData = siteId =>
   new Promise((resolve, reject) => {
-    const sourceUrl = `https://gateway.api.epa.vic.gov.au/environmentMonitoring/v1/sites/${siteId}`
+    const sourceUrl = ``
     request(
       {
         url: sourceUrl,
@@ -77,6 +81,7 @@ const applyEdit = (updateData, token) =>
       },
       function (error, response, body) {
         if (response.statusCode == 200 && !error) {
+          //resolve(JSON.parse(response));
           resolve(body);
         }
         reject(error);
@@ -118,9 +123,12 @@ const appRouter = app => {
 
       //1. Request tokens from ArcGIS online
       const token = await requestToken();
+      console.log(`token: ${token}`);
 
       //2. Get feature data
       const featureData = await getFeatureData(token);
+
+      console.log(`No of stations: ${featureData.features.length}`);
 
       let arrUpdates = [];
 
@@ -128,22 +136,33 @@ const appRouter = app => {
 
         const objectId = featureData.features[index].attributes.OBJECTID;
         const siteID = featureData.features[index].attributes.siteID;
+        const siteName = featureData.features[index].attributes.siteName;
 
-        const sourcedata = await getSourceData(siteID);
-        const updatedData = {
-          objectId: objectId,
-          siteID: sourcedata.siteID,
-          siteName: sourcedata.siteName,
-          siteType: sourcedata.siteType,
-          since: sourcedata.siteHealthAdvices[0].since,
-          until: sourcedata.siteHealthAdvices[0].until,
-          healthParameter: sourcedata.siteHealthAdvices[0].healthParameter,
-          healthAdvice: sourcedata.siteHealthAdvices[0].healthAdvice,
-          averageValue: sourcedata.siteHealthAdvices[0].averageValue
-        };
-        arrUpdates.push(updatedData);
+        try {
+
+          //console.log(`Reading values from siteName: ${siteName}`);
+          const sourcedata = await getSourceData(siteID);
+
+          const updatedData = {
+            objectId: objectId,
+            siteID: sourcedata.siteID,
+            siteName: sourcedata.siteName,
+            siteType: sourcedata.siteType,
+            since: sourcedata.siteHealthAdvices[0].since,
+            until: sourcedata.siteHealthAdvices[0].until,
+            healthParameter: sourcedata.siteHealthAdvices[0].healthParameter,
+            healthAdvice: sourcedata.siteHealthAdvices[0].healthAdvice,
+            averageValue: sourcedata.siteHealthAdvices[0].averageValue
+          };
+
+          arrUpdates.push(updatedData);
+
+        } catch (error) {
+          console.log(`error description: ${error}`);
+        }
       }
 
+      console.log(`Updating ${arrUpdates.length} ...`);
       const result = await applyEdit(arrUpdates, token);
       res
         .status(200)
