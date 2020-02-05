@@ -14,7 +14,8 @@ In every xx minutes, this lambda function will call an API provided by EPA. This
 
 ### Prerequisites
 
-The app can be deploy as standalone NodeJS web app or as a AWS lambda function. To deploy to AWS Lambda, use [Serverless](https://serverless.com/)
+1. The app can be deploy as standalone NodeJS web app or as a AWS lambda function. To deploy to AWS Lambda, use [Serverless](https://serverless.com/)
+2. All API called to EPA required us to provide API key, therefore we need to firstly register and subscribe the product via https://portal.api.epa.vic.gov.au/.
 
 ### Installing
 
@@ -46,9 +47,9 @@ Update the feature server URL
 const featureServerUrl = 'xx';
 ```
 
-### API Subscription in EPA Portal
+### Accessing EPA API using API Key
 
-All API called to EPA required us to provide API key, therefore we need to firstly register and subscribe to the product via https://portal.api.epa.vic.gov.au/. 
+As mention above, all API called to EPA required us to provide API key, therefore we need to firstly register and subscribe to the product via https://portal.api.epa.vic.gov.au/. 
 
 Then, in [/routes/routes.js](/routes/routes.js) assign that API key to the variable
 
