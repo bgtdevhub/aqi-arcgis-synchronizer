@@ -214,7 +214,7 @@ const appRouter = app => {
 
         const existingSite = arcGisSites.features.find(site => site.attributes.siteID === featureData.siteId);
         if (existingSite) {
-          featureData.OBJECTID = existingSite.OBJECTID;
+          featureData.OBJECTID = existingSite.attributes.OBJECTID;
           updatedSites.push(featureData);
         } else {
           console.log(`${featureData.siteName} is a new site (to be added)`);
